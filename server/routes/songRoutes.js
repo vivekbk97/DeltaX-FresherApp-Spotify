@@ -3,8 +3,8 @@ const { createSong, displayTopSongs } = require('../controllers/songController')
 
 const router = express.Router()
 
-router.route('/create').post(createSong)
+router.post('/create', createSong)
 
-router.route('/displayTopSongs').get(displayTopSongs)
+router.get('/displayTopSongs', displayTopSongs)
 
 module.exports = router

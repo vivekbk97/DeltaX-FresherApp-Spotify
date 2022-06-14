@@ -36,7 +36,7 @@ const displayTopSongs = async (req, res) => {
   const songsToDisplay = await Song.find({})
     .sort({ averageRating: -1 })
     .find({ limit: 10 })
-    .populate('artists', { name: 1 })
+    .populate('artists', { name: 1, _id: 0 })
   res.status(201).json(songsToDisplay)
 }
 

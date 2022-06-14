@@ -1,4 +1,3 @@
-const Song = require('../models/songModel')
 const Artist = require('../models/artistModel')
 
 const createArtist = async (req, res) => {
@@ -25,7 +24,7 @@ const displayTopArtists = async (req, res) => {
 
 const displayAllArtists = async (req, res) => {
   const allArtists = await Artist.find({}).sort({ name: 1 })
-  res.status(201).json(artistsToDisplay)
+  res.status(201).json(allArtists)
 }
 
 module.exports = {

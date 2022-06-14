@@ -10,42 +10,58 @@ const userLogin = async (req, res) => {
     return
   }
 
-  const user = await User.create({
-    name,
-    email
+  let user = await User.findOne({
+    email: email
   })
+
+  if (!user) {
+    user = await User.create({
+      name,
+      email
+    })
+  }
 
   res.status(201).json(user)
 }
 
+function alreadyRated (userId, ratings) {
+  for (let i = 0; i < ratings.length; i++) {
+    if (ratings[i].userId === userId) {
+      return true
+    }
+  }
+
+  return false
+}
+
 const updateSongRating = async (req, res) => {
-  const { songId, ratingGiven } = req.body
+  const { songId, userId, ratingGiven } = req.body
   const song = await Song.findById({ _id: songId })
   const artists = song.artists
+  let newRatings
 
-  const newTotalPeopleRated = song.totalPeopleRated + 1
-  const newAverageRating =
-    (song.averageRating * song.totalPeopleRated + ratingGiven) /
-    (song.totalPeopleRated + 1)
-
-  artists.forEach(async artistId => {
-    const artist = await Artist.findById({
-      _id: artistId
-    })
-
-    await Artist.findByIdAndUpdate(
-      {
-        _id: artistId
-      },
-      {
-        $set: {
-          averageRating:
-            (artist.averageRating * artist.songs.length + newAverageRating) /
-            artist.songs.length
-        }
+  if (alreadyRated(userId, song.ratings)) {
+    for (let i = 0; i < song.ratings.length; i++) {
+      if (song.ratings[i].userId === userId) {
+        song.ratings[i].rating = ratingGiven
+        newRatings = song.ratings
+        break
       }
-    )
+    }
+  } else {
+    song.ratings.push({
+      userId: userId,
+      rating: ratingGiven
+    })
+    newRatings = song.ratings
+  }
+
+  let totalRatings = 0
+  song.ratings.forEach(rating => {
+    totalRatings += rating.rating
   })
+
+  const newAverageRating = totalRatings / newRatings.length
 
   await Song.findByIdAndUpdate(
     {
@@ -53,11 +69,36 @@ const updateSongRating = async (req, res) => {
     },
     {
       $set: {
-        totalPeopleRated: newTotalPeopleRated,
+        ratings: newRatings,
         averageRating: newAverageRating
       }
     }
   )
+
+  artists.forEach(async artistId => {
+    const artist = await Artist.findById({
+      _id: artistId
+    }).populate('songs')
+
+    let totalRatings = 0
+    console.log(artist.songs)
+    for (let i = 0; i < artist.songs.length; i++) {
+      console.log(artist.songs[i].averageRating)
+      totalRatings = artist.songs[i].averageRating
+    }
+
+    await Artist.findByIdAndUpdate(
+      {
+        _id: artistId
+      },
+      {
+        $set: {
+          averageRating: totalRatings / artist.songs.length
+        }
+      }
+    )
+  })
+
   res.status(201).send('rating updated')
 }
 

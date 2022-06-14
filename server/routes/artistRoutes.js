@@ -7,8 +7,8 @@ const {
 
 const router = express.Router()
 
-router.route('/create').post(createArtist)
-router.route('/displayTopArtists').get(displayTopArtists)
-router.route('/displayAllArtists').get(displayAllArtists)
+router.post('/create', createArtist)
+router.get('/displayTopArtists', displayTopArtists)
+router.get('/displayAllArtists', displayAllArtists)
 
 module.exports = router

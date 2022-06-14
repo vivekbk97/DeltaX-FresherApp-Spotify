@@ -7,8 +7,15 @@ const songSchema = mongoose.Schema({
   },
   dateOfRelease: { type: Date, required: true },
   coverImage: { type: String, required: true },
-  artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artist' }],
-  totalPeopleRated: { type: Number, default: 0 },
+  artists: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Artist', required: true }
+  ],
+  ratings: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      rating: { type: Number, default: 0 }
+    }
+  ],
   averageRating: { type: Number, default: 0 }
 })
 
