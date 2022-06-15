@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { MultiSelect } from 'react-multi-select-component'
 import { ToastContainer, toast } from 'react-toastify'
 import ProfileModal from '../components/AddArtistModal'
 import uploadpic from '../components/uploadpic'
 
 const CreateSong = () => {
+  const inputRef = useRef(null)
   const [name, setName] = useState('')
   const [date, setDate] = useState('')
   const [artWork, setArtWork] = useState('')
@@ -51,8 +52,6 @@ const CreateSong = () => {
       artists: selected.map(selectedArtists => selectedArtists.value)
     }
 
-    console.log(body)
-
     await fetch('/song/create', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -62,14 +61,22 @@ const CreateSong = () => {
     })
       .then(res => res.json())
       .then(data => console.log(data))
+    setName('')
+    setDate('')
+    setArtWork('')
+    setSelected([])
+    console.log(name, date, artWork, selected)
   }
 
   const saveHandler = () => {
     postSong()
+  }
+
+  const cancelHandler = () => {
     setName('')
     setDate('')
-    setArtWork('')
-    setSelected('')
+    inputRef.current.value = null
+    setSelected([])
   }
 
   return (
@@ -94,6 +101,7 @@ const CreateSong = () => {
           onChange={e => {
             setName(e.target.value)
           }}
+          value={name}
         />
       </div>
       <div>
@@ -103,12 +111,14 @@ const CreateSong = () => {
           onChange={e => {
             setDate(e.target.value)
           }}
+          value={date}
         />
       </div>
       <div>
         <b>Art Work:- </b>
         <input
           type='file'
+          ref={inputRef}
           onChange={event => {
             event.preventDefault()
             uploadpic(event.target.files[0], toast, setArtWork)
@@ -133,7 +143,12 @@ const CreateSong = () => {
         </button>
       </div>
       <div>
-        <button style={{ backgroundColor: 'red' }}>Cancel</button>
+        <button
+          style={{ backgroundColor: 'red' }}
+          onClick={() => cancelHandler()}
+        >
+          Cancel
+        </button>
         <button onClick={() => saveHandler()}>Save</button>
       </div>
       <ProfileModal modal={modal} setModal={setModal} setArtists={setArtists} />
