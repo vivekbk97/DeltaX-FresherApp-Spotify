@@ -54,8 +54,9 @@ const ProfileModal = ({ setArtist, modal, setModal }) => {
       <div>
         <span>Date Of Birth</span>
         <input
-          type='text'
+          type='date'
           onChange={e => {
+            console.log(e.target)
             setDob(e.target.value)
           }}
         />

@@ -1,3 +1,18 @@
+input {
+  height: 50px;
+  margin: 10px;
+  font-size: large;
+}
+
+button {
+  background-color: chartreuse;
+  width: 25%;
+  height: 50px;
+  cursor: pointer;
+  margin: 10px;
+  font-size: large;
+}
+
 .song {
   display: flex;
   flex-direction: row;
@@ -12,4 +27,13 @@
   justify-content: space-between;
   border: solid 1px black;
   margin-bottom: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.addButton {
+  background-color: chartreuse;
+  width: 25%;
+  height: 50px;
+  cursor: pointer;
 }

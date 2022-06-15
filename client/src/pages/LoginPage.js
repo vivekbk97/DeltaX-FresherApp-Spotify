@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { ToastContainer, toast } from 'react-toastify'
-import Header from '../components/Header'
+import { toast, ToastContainer } from 'react-toastify'
 
 const LoginPage = () => {
   const [name, setName] = useState('')
@@ -47,27 +46,30 @@ const LoginPage = () => {
 
   return (
     <div>
-      <Header />
-      <b>Name</b>
-      <input
-        type='text'
-        className='input'
-        value={name}
-        onChange={e => {
-          setName(e.target.value)
-        }}
-        required
-      />
-      <b>Email</b>
-      <input
-        type='email'
-        className='input'
-        value={email}
-        onChange={e => {
-          setEmail(e.target.value)
-        }}
-        required
-      />
+      <div>
+        <b>Name</b>
+        <input
+          type='text'
+          className='input'
+          value={name}
+          onChange={e => {
+            setName(e.target.value)
+          }}
+          required
+        />
+      </div>
+      <div>
+        <b>Email</b>
+        <input
+          type='email'
+          className='input'
+          value={email}
+          onChange={e => {
+            setEmail(e.target.value)
+          }}
+          required
+        />
+      </div>
       <button className='login' onClick={() => loginHandler()}>
         Login
       </button>

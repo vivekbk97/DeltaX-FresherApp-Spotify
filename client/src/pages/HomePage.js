@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import Header from '../components/Header'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -60,19 +59,39 @@ const HomePage = () => {
 
   return (
     <div>
-      <Header />
       <button className='addButton' onClick={() => clickHandler()}>
         Add New Song +
       </button>
-      Top 10 Songs
+      <br />
+      <br />
+      <h1 style={{ textAlign: 'center' }}>Top 10 Songs</h1>
       <li className='topSongs'>
+        <div className='song' style={{ backgroundColor: 'grey' }}>
+          <h2>Cover</h2>
+          <h2>Name</h2>
+          <h2>Date Of Release</h2>
+          <h2>Artists</h2>
+          <h2>Average Rating</h2>
+          <h2>Rate Song</h2>
+        </div>
         {songs.map((data, index) => {
           return (
             <div key={index} className='song'>
-              <img className='songImage' src={data.coverImage} />
-              <h1>{data.name}</h1>
-              <h3>{data.dateOfRelease}</h3>
-              <h4>{JSON.stringify(data.artists)}</h4>
+              <img src={data.coverImage} style={{ width: '10%' }} />
+              <h1 style={{ display: 'flex', alignItems: 'center' }}>
+                {data.name}
+              </h1>
+              <h3 style={{ display: 'flex', alignItems: 'center' }}>
+                {data.dateOfRelease}
+              </h3>
+              <h4 style={{ display: 'flex', alignItems: 'center' }}>
+                {data.artists
+                  .map(artist => artist.name.toUpperCase())
+                  .join(',\t')}
+              </h4>
+              <h4 style={{ display: 'flex', alignItems: 'center' }}>
+                {data.averageRating}
+              </h4>
               <select onChange={e => updateRating(e, data._id)}>
                 <option value='0'>0</option>
                 <option value='1'>1</option>
@@ -85,8 +104,16 @@ const HomePage = () => {
           )
         })}
       </li>
-      Top 10 Songs
+      <br />
+      <br />
+      <h1 style={{ textAlign: 'center' }}>Top 10 Artists</h1>
       <li className='topArtists'>
+        <div className='artist' style={{ backgroundColor: 'grey' }}>
+          <h2>Name</h2>
+          <h2>DOB</h2>
+          <h2>Bio</h2>
+        </div>
+
         {artists.map((data, index) => {
           return (
             <div key={index} className='artist'>

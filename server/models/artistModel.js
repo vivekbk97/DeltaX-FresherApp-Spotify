@@ -5,7 +5,7 @@ const artistSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  dob: { type: Date, required: true },
+  dob: { type: String, required: true },
   bio: { type: String, required: true },
   songs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
   averageRating: { type: Number, default: 0 }

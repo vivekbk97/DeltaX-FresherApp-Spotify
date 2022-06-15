@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { MultiSelect } from 'react-multi-select-component'
+import { ToastContainer, toast } from 'react-toastify'
 import ProfileModal from '../components/AddArtistModal'
+import uploadpic from '../components/uploadpic'
 
 const CreateSong = () => {
   const [name, setName] = useState('')
@@ -72,9 +74,21 @@ const CreateSong = () => {
 
   return (
     <div>
-      Adding a new song
+      <div
+        style={{
+          backgroundColor: 'grey',
+          color: 'white',
+          justifyContent: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          marginBottom: '50px',
+          height: '50px'
+        }}
+      >
+        Adding a new song
+      </div>
       <div>
-        <span>Song Name</span>
+        <b>Song Name:- </b>
         <input
           type='text'
           onChange={e => {
@@ -83,25 +97,26 @@ const CreateSong = () => {
         />
       </div>
       <div>
-        <span>Date Released</span>
+        <b>Date Released:- </b>
         <input
-          type='text'
+          type='date'
           onChange={e => {
             setDate(e.target.value)
           }}
         />
       </div>
       <div>
-        <span>Art Work</span>
+        <b>Art Work:- </b>
         <input
           type='file'
-          onChange={e => {
-            setArtWork(e.target.value)
+          onChange={event => {
+            event.preventDefault()
+            uploadpic(event.target.files[0], toast, setArtWork)
           }}
         />
       </div>
       <div>
-        <span>Artists</span>
+        <b>Artists</b>
         <MultiSelect
           options={options}
           value={selected}
@@ -112,15 +127,17 @@ const CreateSong = () => {
           onClick={() => {
             setModal(true)
           }}
+          style={{ backgroundColor: 'orange' }}
         >
           Add Artist
         </button>
       </div>
       <div>
-        <button>Cancel</button>
+        <button style={{ backgroundColor: 'red' }}>Cancel</button>
         <button onClick={() => saveHandler()}>Save</button>
       </div>
       <ProfileModal modal={modal} setModal={setModal} setArtists={setArtists} />
+      <ToastContainer />
     </div>
   )
 }

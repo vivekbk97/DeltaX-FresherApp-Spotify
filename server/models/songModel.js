@@ -5,7 +5,7 @@ const songSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  dateOfRelease: { type: Date, required: true },
+  dateOfRelease: { type: String, required: true },
   coverImage: { type: String, required: true },
   artists: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Artist', required: true }
