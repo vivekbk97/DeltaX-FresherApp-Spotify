@@ -40,7 +40,7 @@ const ProfileModal = ({ setArtist, modal, setModal }) => {
         setModal(false)
         return true
       }}
-      className='profileModal'
+      width='fit-content'
     >
       <div>
         <span>Artist Name</span>
