@@ -21,6 +21,22 @@ app.use('/user', userRoutes)
 app.use('/song', songRoutes)
 app.use('/artist', artistRoutes)
 
+// ---------- deploy ---------
+const _dirname1 = path.resolve()
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(_dirname1, '/client/build')))
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(_dirname1, 'client', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running')
+  })
+}
+// ---------- deploy ---------
+
 const server = app.listen(
   PORT,
   console.log(`Server listening at http://localhost:${PORT}`)
