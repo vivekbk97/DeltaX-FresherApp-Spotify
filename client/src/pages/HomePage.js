@@ -5,6 +5,7 @@ const HomePage = () => {
   const navigate = useNavigate()
   const [songs, setSongs] = useState([])
   const [artists, setArtists] = useState([])
+  const [userId, setuserId] = useState('')
 
   const getTopSongs = async () => {
     await fetch('/song/displayTopSongs', {
@@ -32,9 +33,16 @@ const HomePage = () => {
       })
   }
 
+  const getUser = () => {
+    console.log(localStorage.getItem('user'))
+    const user = JSON.parse(localStorage.getItem('user'))
+    setuserId(user._id)
+  }
+
   useEffect(() => {
     getTopSongs()
     getTopArtists()
+    getUser()
   }, [])
 
   const clickHandler = () => {
@@ -44,6 +52,7 @@ const HomePage = () => {
   const updateRating = async (event, songId) => {
     const body = {
       songId: songId,
+      userId: userId,
       ratingGiven: Number(event.target.value)
     }
     await fetch('/user/updateSongRating', {
@@ -71,6 +80,7 @@ const HomePage = () => {
           <h2>Name</h2>
           <h2>Date Of Release</h2>
           <h2>Artists</h2>
+          <h2>Language</h2>
           <h2>Average Rating</h2>
           <h2>Rate Song</h2>
         </div>
@@ -89,6 +99,10 @@ const HomePage = () => {
                   .map(artist => artist.name.toUpperCase())
                   .join(',\t')}
               </h4>
+              <h4 style={{ display: 'flex', alignItems: 'center' }}>
+                {data.language}
+              </h4>
+
               <h4 style={{ display: 'flex', alignItems: 'center' }}>
                 {data.averageRating}
               </h4>

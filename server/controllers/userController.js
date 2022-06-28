@@ -41,6 +41,7 @@ const updateSongRating = async (req, res) => {
   let newRatings
 
   if (alreadyRated(userId, song.ratings)) {
+    console.log('rated')
     for (let i = 0; i < song.ratings.length; i++) {
       if (song.ratings[i].userId === userId) {
         song.ratings[i].rating = ratingGiven
@@ -49,11 +50,13 @@ const updateSongRating = async (req, res) => {
       }
     }
   } else {
+    console.log('within else')
     song.ratings.push({
       userId: userId,
       rating: ratingGiven
     })
     newRatings = song.ratings
+    console.log(newRatings)
   }
 
   let totalRatings = 0
@@ -81,9 +84,9 @@ const updateSongRating = async (req, res) => {
     }).populate('songs')
 
     let totalRatings = 0
-    console.log(artist.songs)
+    // console.log(artist.songs)
     for (let i = 0; i < artist.songs.length; i++) {
-      console.log(artist.songs[i].averageRating)
+      // console.log(artist.songs[i].averageRating)
       totalRatings = artist.songs[i].averageRating
     }
 

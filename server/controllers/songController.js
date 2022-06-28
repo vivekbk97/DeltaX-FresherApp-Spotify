@@ -2,14 +2,15 @@ const Song = require('../models/songModel')
 const Artist = require('../models/artistModel')
 
 const createSong = async (req, res) => {
-  const { name, dateOfRelease, coverImage, artists } = req.body
+  const { name, dateOfRelease, coverImage, artists, language } = req.body
 
   try {
     const song = await Song.create({
       name: name,
       dateOfRelease: dateOfRelease,
       coverImage: coverImage,
-      artists: artists
+      artists: artists,
+      language: language
     })
 
     artists.forEach(async artistId => {

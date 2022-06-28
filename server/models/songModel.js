@@ -7,6 +7,7 @@ const songSchema = mongoose.Schema({
   },
   dateOfRelease: { type: String, required: true },
   coverImage: { type: String, required: true },
+  language: { type: String, required: true, default: 'hindi' },
   artists: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Artist', required: true }
   ],

@@ -9,6 +9,7 @@ const CreateSong = () => {
   const [name, setName] = useState('')
   const [date, setDate] = useState('')
   const [artWork, setArtWork] = useState('')
+  const [language, setLanguage] = useState('')
   const [artists, setArtists] = useState([])
   const [selected, setSelected] = useState([])
   const [modal, setModal] = useState(false)
@@ -49,8 +50,11 @@ const CreateSong = () => {
       name: name,
       dateOfRelease: date,
       coverImage: artWork,
-      artists: selected.map(selectedArtists => selectedArtists.value)
+      artists: selected.map(selectedArtists => selectedArtists.value),
+      language: language
     }
+
+    console.log(body)
 
     await fetch('/song/create', {
       method: 'POST',
@@ -125,6 +129,17 @@ const CreateSong = () => {
           }}
         />
       </div>
+      <div>
+        <b>Song Language:- </b>
+        <input
+          type='text'
+          onChange={e => {
+            setLanguage(e.target.value)
+          }}
+          value={language}
+        />
+      </div>
+
       <div>
         <b>Artists</b>
         <MultiSelect
